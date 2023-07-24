@@ -14,11 +14,11 @@ class Contact {
   });
 
   factory Contact.fromJson(Map<String, Object?> json) => Contact(
-        createdAt: json["createdAt"] as String,
-        name: json["name"] as String,
-        avatar: json["avatar"] as String,
-        number: json["number"] as String,
-        id: json["id"] as String,
+        createdAt: json["createdAt"] as String?,
+        name: json["name"] as String?,
+        avatar: json["avatar"] as String?,
+        number: json["number"] as String?,
+        id: json["id"] as String?,
       );
 
   Map<String, Object?> toJson() => {

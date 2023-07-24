@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:learn_bloc/bloc/list_contact_cubit.dart';
-import 'package:learn_bloc/models/contact.dart';
+
+import '../models/contact.dart';
 
 class ViewContacts extends StatelessWidget {
-  final List<Contact> contacts;
-
   const ViewContacts({super.key, required this.contacts});
+
+  final List<Contact> contacts;
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +14,11 @@ class ViewContacts extends StatelessWidget {
       itemCount: contacts.length,
       itemBuilder: (context, index) => Slidable(
         key: ValueKey(index),
-        endActionPane:  ActionPane(
+        endActionPane: ActionPane(
           motion: const ScrollMotion(),
           children: [
             SlidableAction(
-              onPressed: (context) => BlocProvider.of<ListContactCubit>(context).apiContactDelete(contacts[index]),
+              onPressed: (context) {},
               backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
               icon: Icons.delete,
@@ -27,7 +26,6 @@ class ViewContacts extends StatelessWidget {
             ),
           ],
         ),
-
         child: ListTile(
           leading: CircleAvatar(
             foregroundImage: NetworkImage(contacts[index].avatar.toString()),
@@ -36,10 +34,6 @@ class ViewContacts extends StatelessWidget {
           subtitle: Text(contacts[index].number.toString()),
         ),
       ),
-
-
-
-
     );
   }
 }

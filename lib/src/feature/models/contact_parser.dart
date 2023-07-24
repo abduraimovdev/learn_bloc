@@ -1,4 +1,4 @@
-import 'package:learn_bloc/models/contact.dart';
+import 'contact.dart';
 
 sealed class Parser {
   static List<Contact> parseContacts(Object? json) {

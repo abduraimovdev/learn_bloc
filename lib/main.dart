@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:learn_bloc/app.dart';
-import 'package:learn_bloc/core/service_locator.dart';
+
+import 'src/common/core/service_locator.dart';
+import 'src/common/widget/app.dart';
 
 void main() {
   setupLocator();
