@@ -32,6 +32,23 @@ class CreateContactEvent extends HomeEvent {
   });
 }
 
+class DeleteContactEvent extends HomeEvent {
+  final String id;
+  const DeleteContactEvent({required this.id});
+}
+
+class UpdateContactEvent extends HomeEvent {
+  final String id;
+  final String name;
+  final String number;
+
+  const UpdateContactEvent({
+    required this.name,
+    required this.number,
+    required this.id,
+  });
+}
+
 /// State
 sealed class HomeState {
   const HomeState();
@@ -62,13 +79,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         LoadedEvent _ => () {},
         ErrorEvent _ => () {},
         CreateContactEvent e => _create(e, emit),
+        DeleteContactEvent e => _delete(e, emit),
+        UpdateContactEvent e => _update(e, emit),
       },
     );
   }
 
   void _loading(LoadingEvent event, Emitter<HomeState> emit) async {
     emit(const LoadingState());
-    
+
     try {
       Object? result = await locator.get<Network>().get(api: Api.contacts);
       List<Contact> contacts = Parser.parseContacts(result);
@@ -88,6 +107,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           "number": event.number,
         },
       );
+    } catch (e) {
+      emit(ErrorState(message: "$e"));
+    }
+  }
+  void _delete(DeleteContactEvent event, Emitter<HomeState> emit) async {
+    try {
+      await locator.get<Network>().delete(api: Api.contacts, id: event.id);
+    }catch(e) {
+      emit(ErrorState(message: "$e"));
+    }
+  }
+  void _update(UpdateContactEvent event, Emitter<HomeState> emit) async {
+    try {
+      await locator.get<Network>().patch(
+            api: Api.contacts,
+            data: {
+              "name" : event.name,
+              "number" : event.number,
+            },
+            id: event.id,
+          );
     } catch (e) {
       emit(ErrorState(message: "$e"));
     }

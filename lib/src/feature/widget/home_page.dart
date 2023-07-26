@@ -9,7 +9,7 @@ import 'veiew_contact_widget.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  void openCreateUpdatePage(BuildContext context) async {
+  void openCreatePage(BuildContext context) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
             LoadingState _ => const Center(child: CircularProgressIndicator()),
           },
           floatingActionButton: FloatingActionButton(
-            onPressed: () => openCreateUpdatePage(context),
+            onPressed: () => openCreatePage(context),
             child: const Icon(Icons.add_call),
           ),
         ),

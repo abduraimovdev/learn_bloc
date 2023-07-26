@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:learn_bloc/src/feature/widget/update_page.dart';
 
+import '../bloc/home_bloc.dart';
 import '../models/contact.dart';
 
 class ViewContacts extends StatelessWidget {
   const ViewContacts({super.key, required this.contacts});
 
   final List<Contact> contacts;
+
+  void deleteContact(String id) {}
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,13 @@ class ViewContacts extends StatelessWidget {
           motion: const ScrollMotion(),
           children: [
             SlidableAction(
-              onPressed: (context) {},
+              onPressed: (context) {
+                context
+                    .read<HomeBloc>()
+                    .add(DeleteContactEvent(id: contacts[index].id!));
+
+                context.read<HomeBloc>().add(const LoadingEvent());
+              },
               backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
               icon: Icons.delete,
@@ -32,6 +43,14 @@ class ViewContacts extends StatelessWidget {
           ),
           title: Text(contacts[index].name.toString()),
           subtitle: Text(contacts[index].number.toString()),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UpdatePage(contact: contacts[index]),
+              ),
+            );
+          },
         ),
       ),
     );
